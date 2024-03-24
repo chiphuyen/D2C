@@ -34,13 +34,11 @@ def take_screenshot(url, output_file="screenshot.png", do_it_again=False):
 
 
 if __name__ == "__main__":
-    ## generating screenshots for all the html files in the testset_final
-    # predictions_dirs = ["../../testset_final"]
-    # for predictions_dir in predictions_dirs:
-    #     for filename in tqdm(os.listdir(predictions_dir)):
-    #         if filename.endswith(".html"):
-    #             take_screenshot(os.path.join(predictions_dir, filename), os.path.join(predictions_dir, filename.replace(".html", ".png")))
-
-    ## generating screenshots for one specific html file
-    take_screenshot("../testset_final/2.html", "../testset_final/2.png", do_it_again=True)
-
+    workspace = '/Users/chip/dev/anyscale'
+    partition = 'train-00000-of-00738-80a58552f2fb3344-small'
+    outdir = f'{workspace}/{partition}'
+    imgdir = f'{outdir}/image'
+    os.makedirs(imgdir, exist_ok=True)
+    fnames = [f for f in os.listdir(outdir) if f.endswith('html') and os.path.isfile(os.path.join(outdir, f))]
+    for fname in tqdm(fnames):
+        take_screenshot(os.path.join(outdir, fname), os.path.join(imgdir, fname.replace(".html", ".png")))
